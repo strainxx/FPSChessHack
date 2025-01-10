@@ -158,10 +158,13 @@ HRESULT __stdcall present_hook(IDXGISwapChain* pSwapChain, UINT SyncInterval, UI
 DWORD MainThread(HMODULE Module)
 {
     /* Code to open a console window */
+#ifdef _DEBUG
     AllocConsole();
     FILE* Dummy;
     freopen_s(&Dummy, "CONOUT$", "w", stdout);
     freopen_s(&Dummy, "CONIN$", "r", stdin);
+#endif // DEBUG
+
 
     std::cout << "Yes this is chess cheat\n";
 
