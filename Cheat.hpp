@@ -17,9 +17,12 @@ namespace Render {
         if (Pawn->Controller == MyController)
             return;
         
-        SDK::AController* controller = Pawn->Controller;
+        /*SDK::AController* controller = Pawn->Controller;
         if (controller == nullptr)
-            return;
+            return;*/
+        //SDK::ABP_Player_C* p = static_cast<SDK::ABP_Player_C*>(Actor);
+
+        //std::cout << int(p->bCanBeDamaged) << "\n";
    
         auto loc = Pawn->GetTransform().Translation;
 
@@ -68,9 +71,9 @@ namespace Render {
             return;
 
 
-        SDK::AController* controller = Pawn->Controller;
+        /*SDK::AController* controller = Pawn->Controller;
         if (controller == nullptr)
-            return;
+            return;*/
 
         //std::cout << "bCanBeDamaged " << playerState->bCanBeDamaged << "\n";
         //std::cout << "bIsABot " << playerState->bIsABot << "\n";
@@ -86,7 +89,37 @@ namespace Render {
         auto center = ImVec2(ImGui::GetIO().DisplaySize.x / 2, 0);
 
         auto color = ImColor(Settings::color[0], Settings::color[1], Settings::color[2]);
-        //std::cout << "controller->Character->IsBotControlled() " << controller->Character->IsBotControlled() << "\n";
+        //std::cout << "controller->Character->IsBotControlled() " <<  << "\n";
+
+        //SDK::TArray<SDK::USkeletalMeshComponent*> SkeletalMeshes = Pawn->SkeletalMeshes();
+        //printf("SkeletalMeshes Num: %i\n", SkeletalMeshes.Num());
+        //for (int xi = 0; xi < SkeletalMeshes.Num(); xi++)
+        //{
+        //    SDK::USkeletalMeshComponent* Material = SkeletalMeshes[xi];
+        //    if (!Material) continue;
+
+        //    SDK::UMaterialInstanceDynamic* MaterialInstance = Material->CreateAndSetMaterialInstanceDynamic(xi);
+        //    if (!MaterialInstance) continue;
+
+        //    //SDK::UMaterial* BaseMaterial = MaterialInstance->GetBaseMaterial();
+        //    //printf("Material: %p\n", BaseMaterial);
+
+        //    //printf("TranslucentShadowDensityScale: %f\n", BaseMaterial->TranslucentShadowDensityScale());
+
+        //    printf("VectorParameterValues: %i\n", MaterialInstance->VectorParameterValues().Num());
+        //    for (int si = 0; si < MaterialInstance->VectorParameterValues().Num(); si++)
+        //    {
+        //        SDK::FVectorParameterValue Value = MaterialInstance->VectorParameterValues()[si];
+        //        printf("Value: %p\n", Value);
+
+        //        SDK::FLinearColor Color = MaterialInstance->K2_GetVectorParameterValue(Value.ParameterInfo.Name);
+        //        printf("FLinearColor: %f %f %f %f\n", Color.r, Color.g, Color.b, Color.a);
+
+        //        FLinearColor ChamColor = FLinearColor(1.f, 0.f, 0.f, 1.f);
+        //        SDK::UKismetMaterialLibrary::SetVectorParameterValue(GWorld, reinterpret_cast<SDK::UMaterialParameterCollection*>(Material), Value.ParameterInfo.Name, ChamColor);
+        //        MaterialInstance->SetVectorParameterValue(Value.ParameterInfo.Name, ChamColor);
+        //    }
+        //}
 
         ImGui::GetForegroundDrawList()->AddLine(center, ImVec2(projected.X, projected.Y - (size.Y / 2)), color);
     }
@@ -111,9 +144,9 @@ namespace Combat {
         if (Pawn->Controller == MyController)
             return;
 
-        SDK::AController* controller = Pawn->Controller;
+        /*SDK::AController* controller = Pawn->Controller;
         if (controller == nullptr)
-            return;
+            return;*/
 
         auto loc = Pawn->GetTransform().Translation + SDK::FVector(0, 0, Settings::aim_oy);
         auto size = Pawn->GetTransform().Scale3D;
