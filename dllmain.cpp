@@ -131,6 +131,11 @@ HRESULT __stdcall present_hook(IDXGISwapChain* pSwapChain, UINT SyncInterval, UI
     ImGui::Begin("IDK IDK IDK");
 
     ImGui::Checkbox("ESP", &Settings::esp);
+    if (Settings::esp)
+    {
+        ImGui::ColorEdit3("Color", Settings::color);
+        ImGui::Checkbox("Name", &Settings::name);
+    }
     ImGui::Checkbox("Tracers", &Settings::tracers);
 
     ImGui::Checkbox("Aim", &Settings::aim);
@@ -163,7 +168,7 @@ DWORD MainThread(HMODULE Module)
     FILE* Dummy;
     freopen_s(&Dummy, "CONOUT$", "w", stdout);
     freopen_s(&Dummy, "CONIN$", "r", stdin);
-#endif // DEBUG
+#endif // _DEBUG
 
 
     std::cout << "Yes this is chess cheat\n";

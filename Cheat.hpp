@@ -16,9 +16,13 @@ namespace Render {
 
         if (Pawn->Controller == MyController)
             return;
-            
+        
+        SDK::AController* controller = Pawn->Controller;
+        if (controller == nullptr)
+            return;
    
         auto loc = Pawn->GetTransform().Translation;
+
 
         SDK::FVector origin = {0,0,0};
         SDK::FVector bext = { 0,0,0 };
@@ -37,11 +41,19 @@ namespace Render {
         MyController->ProjectWorldLocationToScreen(corner3, &projectedCorner3, true);
         MyController->ProjectWorldLocationToScreen(corner4, &projectedCorner4, true);
 
+        auto color = ImColor(Settings::color[0], Settings::color[1], Settings::color[2]);
+        auto drawlist = ImGui::GetForegroundDrawList();
+
         // Fuck my balls
-        ImGui::GetForegroundDrawList()->AddLine(ImVec2(projectedCorner1.X, projectedCorner1.Y), ImVec2(projectedCorner2.X, projectedCorner2.Y), ImColor(255, 0, 0));
-        ImGui::GetForegroundDrawList()->AddLine(ImVec2(projectedCorner2.X, projectedCorner2.Y), ImVec2(projectedCorner4.X, projectedCorner4.Y), ImColor(255, 0, 0));
-        ImGui::GetForegroundDrawList()->AddLine(ImVec2(projectedCorner4.X, projectedCorner4.Y), ImVec2(projectedCorner3.X, projectedCorner3.Y), ImColor(255, 0, 0));
-        ImGui::GetForegroundDrawList()->AddLine(ImVec2(projectedCorner3.X, projectedCorner3.Y), ImVec2(projectedCorner1.X, projectedCorner1.Y), ImColor(255, 0, 0));
+        drawlist->AddLine(ImVec2(projectedCorner1.X, projectedCorner1.Y), ImVec2(projectedCorner2.X, projectedCorner2.Y), color);
+        drawlist->AddLine(ImVec2(projectedCorner2.X, projectedCorner2.Y), ImVec2(projectedCorner4.X, projectedCorner4.Y), color);
+        drawlist->AddLine(ImVec2(projectedCorner4.X, projectedCorner4.Y), ImVec2(projectedCorner3.X, projectedCorner3.Y), color);
+        drawlist->AddLine(ImVec2(projectedCorner3.X, projectedCorner3.Y), ImVec2(projectedCorner1.X, projectedCorner1.Y), color);
+
+        if (Settings::name)
+        {
+            drawlist->AddText(ImVec2(projectedCorner1.X + (projectedCorner1.GetDistanceTo(projectedCorner2) / 2), projectedCorner1.Y), ImColor(1, 1, 1), Pawn->GetName().c_str());
+        }
     }
 
     void tracers(SDK::AActor* Actor, SDK::APlayerController* MyController) {
@@ -55,6 +67,14 @@ namespace Render {
         if (Pawn->Controller == MyController)
             return;
 
+
+        SDK::AController* controller = Pawn->Controller;
+        if (controller == nullptr)
+            return;
+
+        //std::cout << "bCanBeDamaged " << playerState->bCanBeDamaged << "\n";
+        //std::cout << "bIsABot " << playerState->bIsABot << "\n";
+
         auto loc = Pawn->GetTransform().Translation;
         auto size = Pawn->GetTransform().Scale3D; // its not size fuck
 
@@ -65,7 +85,9 @@ namespace Render {
 
         auto center = ImVec2(ImGui::GetIO().DisplaySize.x / 2, 0);
 
-        ImGui::GetForegroundDrawList()->AddLine(center, ImVec2(projected.X, projected.Y - (size.Y / 2)), ImColor(255, 0, 0));
+        auto color = ImColor(Settings::color[0], Settings::color[1], Settings::color[2]);
+
+        ImGui::GetForegroundDrawList()->AddLine(center, ImVec2(projected.X, projected.Y - (size.Y / 2)), color);
     }
 
     void aim_fov() {
@@ -86,6 +108,10 @@ namespace Combat {
         SDK::APawn* Pawn = static_cast<SDK::APawn*>(Actor);
 
         if (Pawn->Controller == MyController)
+            return;
+
+        SDK::AController* controller = Pawn->Controller;
+        if (controller == nullptr)
             return;
 
         auto loc = Pawn->GetTransform().Translation + SDK::FVector(0, 0, Settings::aim_oy);
