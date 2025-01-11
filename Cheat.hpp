@@ -52,7 +52,7 @@ namespace Render {
 
         if (Settings::name)
         {
-            drawlist->AddText(ImVec2(projectedCorner1.X + (projectedCorner1.GetDistanceTo(projectedCorner2) / 2), projectedCorner1.Y), ImColor(1, 1, 1), Pawn->GetName().c_str());
+            drawlist->AddText(ImVec2(projectedCorner1.X - (projectedCorner1.GetDistanceTo(projectedCorner2) ), projectedCorner1.Y-10), ImColor(1.0f, 1.0f, 1.0f), Pawn->GetName().c_str());
         }
     }
 
@@ -86,6 +86,7 @@ namespace Render {
         auto center = ImVec2(ImGui::GetIO().DisplaySize.x / 2, 0);
 
         auto color = ImColor(Settings::color[0], Settings::color[1], Settings::color[2]);
+        //std::cout << "controller->Character->IsBotControlled() " << controller->Character->IsBotControlled() << "\n";
 
         ImGui::GetForegroundDrawList()->AddLine(center, ImVec2(projected.X, projected.Y - (size.Y / 2)), color);
     }
